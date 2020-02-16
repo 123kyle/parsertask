@@ -5,7 +5,6 @@ import os
 import pandas as pd
 import click
 
-
 col_map = {
     2: "任务名称",
     5: "需求编号",
@@ -23,6 +22,8 @@ colors = {1: '#FF4500',  # 功能
           2: '#DB7093',  # 内部连调
           3: '#DA70D6',  # 商家
           10: "#A9A9A9"}
+
+
 class Task:
 
     def __init__(self, name, no, main_tester,
