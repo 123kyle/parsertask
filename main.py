@@ -18,9 +18,9 @@ col_map = {
     24: "商家联调结束时间"
 }
 
-colors = {1: '#FF4500',  # 功能
-          2: '#DB7093',  # 内部连调
-          3: '#DA70D6',  # 商家
+colors = {1: '#C0392B',  # 功能
+          2: '#3498DB',  # 内部连调
+          3: '#8E44AD',  # 商家
           10: "#A9A9A9"}
 
 
@@ -82,16 +82,19 @@ def style_apply(series, colors, back_ground=''):
 
 def convert_time(data):
     try:
-        return data.to_pydatetime()
-    except:
+        t = data.to_pydatetime()
+        if isinstance(t, datetime.datetime):
+            t.timestamp()
+        return t
+    except Exception as e:
         pass
+    return None
 
 
 def create_data_frame(tasks, start, end):
     rows = []
-
-    for item in tasks:
-        row = item.to_list(start, end)
+    for task in tasks:
+        row = task.to_list(start, end)
         rows.append(row)
     step = datetime.timedelta(days=1)
     days = [(start + (i * step)).date() for i in range((end - start).days + 1)]
@@ -125,13 +128,14 @@ def main(srt, dst):
         inter_end_time = convert_time(rows[20])
         cus_start_time = convert_time(rows[23])
         cus_end_time = convert_time(rows[24])
-        real_times = [item for item in (func_start_time, func_end_time,
+        real_times = [item for item in [func_start_time, func_end_time,
                                         inter_start_time, inter_end_time,
-                                        cus_start_time, cus_end_time) if item]
-        tmp_max_time = max(real_times)
-        tmp_min_time = min(real_times)
-        max_time = tmp_max_time if tmp_max_time > max_time else max_time
-        min_time = tmp_min_time if tmp_min_time < min_time else min_time
+                                        cus_start_time, cus_end_time] if item]
+        if len(real_times) > 0:
+            tmp_max_time = max(real_times)
+            tmp_min_time = min(real_times)
+            max_time = tmp_max_time if tmp_max_time > max_time else max_time
+            min_time = tmp_min_time if tmp_min_time < min_time else min_time
 
         t = Task(name, no, main_tester, support_tester,
                  func_start_time, func_end_time,
@@ -140,7 +144,7 @@ def main(srt, dst):
         all_tasks.append(t)
     print("start date from {} to {}".format(min_time, max_time))
     df = create_data_frame(all_tasks, min_time, max_time)
-    df.style.apply(style_apply, colors=colors).to_excel(dst)
+    df.style.apply(style_apply, colors=colors).to_excel(dst, index=0)
 
 
 if __name__ == '__main__':
