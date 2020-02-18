@@ -3,7 +3,7 @@
 import datetime
 import os
 import pandas as pd
-import click
+import argparse
 
 col_map = {
     2: "任务名称",
@@ -103,9 +103,6 @@ def create_data_frame(tasks, start, end):
     return df
 
 
-@click.command()
-@click.option('--dst', default="default.xlsx")
-@click.option('--srt')
 def main(srt, dst):
     if not os.path.exists(srt):
         print("could not found {}".format(srt))
@@ -148,4 +145,10 @@ def main(srt, dst):
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description='处理排期任务.')
+    parser.add_argument('--srt', type=str, help="excel 文件的路径")
+    parser.add_argument('--dst', default="default.xlsx", type=str,
+                        help='生成的报告文件路径')
+
+    args = parser.parse_args()
+    main(args.srt, args.dst)
