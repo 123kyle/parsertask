@@ -74,7 +74,7 @@ def style_apply(series, colors, back_ground=''):
     """
     :param series: 传过来的数据是DataFramt中的一列   类型为pd.Series
     :param colors: 内容是字典  其中key 为标题名   value 为颜色
-    :param back_ground: 北京颜色
+    :param back_ground: 背景颜色
     :return:
     """
     return ['background-color: %s' % (colors.get(item)) for item in series]
