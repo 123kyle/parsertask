@@ -1,7 +1,7 @@
 altgraph==0.17
 et-xmlfile==1.0.1
 jdcal==1.4.1
-Jinja2==2.11.1
+Jinja2==2.11.3
 macholib==1.14
 MarkupSafe==1.1.1
 numpy==1.18.1
