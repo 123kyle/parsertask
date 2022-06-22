@@ -4,7 +4,7 @@ jdcal==1.4.1
 Jinja2==2.11.3
 macholib==1.14
 MarkupSafe==1.1.1
-numpy==1.18.1
+numpy==1.22.0
 openpyxl==3.0.3
 pandas==1.0.1
 PyInstaller==3.6
